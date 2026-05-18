@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelulusan SMP N 1 Napano Kusambi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS STYLING & APERANCE --- */
+        :root {
+            --primary-blue: #1976D2;      /* Biru Cerah Utama */
+            --accent-yellow: #FFC107;     /* Kuning Cerah */
+            --white: #FFFFFF;
+            --success-green: #2ECC71;
+            --danger-red: #E74C3C;
+            --dark-text: #0D47A1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            /* MENGGUNAKAN GAMBAR LATAR BELAKANG KOMBINASI UJIAN DAN MERAYAKAN KELULUSAN */
+            background-image: linear-gradient(rgba(13, 71, 161, 0.6), rgba(13, 71, 161, 0.6)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1200&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: var(--dark-text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 90%;
+            margin: 40px auto;
+            /* Efek Glassmorphism (Kaca Transparan) agar kontras dengan gambar latar belakang */
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        /* Utility Hidden Class */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Header Style */
+        .logo {
+            width: 130px;
+            height: 130px;
+            margin-bottom: 15px;
+            object-fit: contain;
+            filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.15));
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            font-size: 16px;
+            font-weight: 500;
+            color: #546E7A;
+            margin-bottom: 25px;
+        }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark-text);
+        }
+
+        input[type="text"], input[type="datetime-local"], textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #B0BEC5;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background-color: #FAFAFA;
+        }
+
+        input[type="text"]:focus, input[type="datetime-local"]:focus, textarea:focus {
+            border-color: var(--primary-blue);
+            background-color: #FFFFFF;
+            outline: none;
+            box-shadow: 0 0 8px rgba(25, 118, 210, 0.2);
+        }
+
+        /* Button Style */
+        .btn {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border: 2px solid var(--primary-blue);
+            padding: 14px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(25, 118, 210, 0.3);
+        }
+
+        .btn:hover {
+            background-color: var(--accent-yellow);
+            border-color: var(--accent-yellow);
+            color: #5D4037;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(255, 193, 7, 0.4);
+        }
+
+        .btn:disabled {
+            background-color: #CFD8DC;
+            border-color: #CFD8DC;
+            color: #90A4AE;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* --- DESIGN TIMER COUNTDOWN --- */
+        .timer-container {
+            background: #FFFDE7;
+            border: 2px dashed var(--accent-yellow);
+            padding: 20px 15px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            color: #F57F17;
+        }
+        
+        .timer-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .countdown-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .time-box {
+            background: #FFFFFF;
+            border: 1px solid #FFE082;
+            padding: 8px 12px;
+            border-radius: 8px;
+            min-width: 65px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .time-number {
+            font-size: 22px;
+            font-weight: 700;
+            color: #E65100;
+            display: block;
+            line-height: 1.2;
+        }
+
+        .time-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: #B71C1C;
+            text-transform: uppercase;
+        }
+
+        .time-separator {
+            font-size: 22px;
+            font-weight: 700;
+            color: #F57F17;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0.4; }
+        }
+
+        /* Result Cards */
+        .result-card {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: left;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .result-card h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .result-card table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .result-card td {
+            padding: 8px 0;
+            font-size: 16px;
+        }
+
+        .result-card td:first-child {
+            font-weight: 600;
+            width: 30%;
+        }
+
+        .status-lulus {
+            background-color: #E8F8F5;
+            border: 2px solid var(--success-green);
+            color: #117840;
+        }
+
+        .status-tidak {
+            background-color: #FDEDEC;
+            border: 2px solid var(--danger-red);
+            color: #B03A2E;
+        }
+
+        .status-error {
+            background-color: #FFF3E0;
+            border: 2px solid #FF9800;
+            color: #E65100;
+        }
+
+        /* Admin Section Styling */
+        .admin-box {
+            text-align: left;
+        }
+        .admin-box textarea {
+            height: 180px;
+            font-family: monospace;
+            font-size: 14px;
+            margin-bottom: 15px;
+            resize: vertical;
+        }
+        .admin-divider {
+            border: 0;
+            height: 1px;
+            background: #D1E8FF;
+            margin: 20px 0;
+        }
+
+        /* Footer & Admin Trigger */
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+            background: rgba(25, 118, 210, 0.9);
+            color: #FFFFFF;
+            font-weight: 500;
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        .admin-trigger {
+            position: absolute;
+            bottom: 5px;
+            right: 15px;
+            font-size: 11px;
+            color: #FFC107;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        /* Confetti Animation Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas" class="hidden"></canvas>
+
+    <div class="container">
+        
+        <header>
+            <img class="logo" src="p2.png" id="school-logo" alt="Logo SMPN 1 Napano Kusambi">
+            <h1>SMPN 1 Napano Kusambi</h1>
+            <h2>Sistem Informasi Kelulusan Siswa<br>Tahun Ajaran 2025/2026</h2>
+        </header>
+
+        <div id="halaman-siswa">
+            
+            <div id="timer-box" class="timer-container">
+                <div class="timer-title">Pengumuman Kelulusan Dapat Diakses Dalam:</div>
+                <div class="countdown-display">
+                    <div class="time-box">
+                        <span id="timer-hari" class="time-number">00</span>
+                        <span class="time-label">Hari</span>
+                    </div>
+                    <div class="time-separator">:</div>
+                    <div class="time-box">
+                        <span id="timer-jam" class="time-number">00</span>
+                        <span class="time-label">Jam</span>
+                    </div>
+                    <div class="time-separator">:</div>
+                    <div class="time-box">
+                        <span id="timer-menit" class="time-number">00</span>
+                        <span class="time-label">Menit</span>
+                    </div>
+                    <div class="time-separator">:</div>
+                    <div class="time-box">
+                        <span id="timer-detik" class="time-number">00</span>
+                        <span class="time-label">Detik</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="nis-input">Masukkan Nomor Induk Siswa (NIS) :</label>
+                <input type="text" id="nis-input" placeholder="Contoh: 12345" autocomplete="off">
+            </div>
+            
+            <button id="btn-cek" class="btn" onclick="cekKelulusan()" disabled>Cek Status Kelulusan</button>
+
+            <div id="hasil-box" class="hidden"></div>
+        </div>
+
+        <div id="halaman-admin" class="hidden admin-box">
+            <h2 style="color: var(--primary-blue); font-weight:700; margin-bottom:5px;">Panel Kontrol Panitia</h2>
+            <p style="font-size:13px; margin-bottom:15px; color:#555;">Kelola waktu peluncuran pengumuman dan basis data siswa terdaftar.</p>
+            
+            <div class="admin-divider"></div>
+
+            <div class="form-group">
+                <label for="admin-timer-input">Atur Waktu Pembukaan Pengumuman :</label>
+                <input type="datetime-local" id="admin-timer-input">
+                <small style="color:#78909C; display:block; margin-top:4px;">Sesuaikan tanggal dan jam kapan sistem pencarian mulai dibuka.</small>
+            </div>
+
+            <div class="admin-divider"></div>
+
+            <div class="form-group">
+                <label for="admin-textarea">Input Data Siswa Massal:</label>
+                <p style="font-size:12px; margin-bottom:8px; color:#78909C;">Format: <b>NIS,NAMA,STATUS</b> (Satu baris untuk satu siswa).</p>
+                <textarea id="admin-textarea" placeholder="12345,Budi Santoso,LULUS"></textarea>
+            </div>
+
+            <button class="btn" onclick="simpanSemuaDataAdmin()" style="margin-bottom: 10px;">Simpan Semua Perubahan</button>
+            <button class="btn" onclick="pindahHalaman('siswa')" style="background: #BDC3C7; color:#333; border-color:#BDC3C7; box-shadow:none;">Kembali ke Tampilan Siswa</button>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 2026 SMPN 1 Napano Kusambi. All Rights Reserved.</p>
+        <span class="admin-trigger" onclick="aksesAdmin()">Mode Admin</span>
+    </footer>
+
+    <script>
+        document.getElementById('school-logo').src = "p2.png";
+
+        // ================= CONFIGURE DEFAULT SYSTEM =================
+        const PASSWORD_ADMIN = "adminbadrun";
+        
+        // Waktu default awal jika local storage kosong
+        const DEFAULT_WAKTU_BUKA = "2026-06-18T10:00"; 
+        // ============================================================
+
+        const dataAwalSiswa = [
+            { nis: "12345", nama: "andi", status: "LULUS" },
+            { nis: "23456", nama: "la ode", status: "LULUS" },
+            { nis: "34567", nama: "wa ina", status: "TIDAK LULUS" },
+            { nis: "45678", nama: "la ege", status: "LULUS" },
+            { nis: "45679", nama: "wa la ode", status: "LULUS" }, 
+            { nis: "56789", nama: "wa abe", status: "LULUS" }
+        ];
+
+        let dataSiswaGlobal = [];
+        let waktuBukaTarget;
+        let intervalCountdown;
+
+        window.onload = function() {
+            muatDataLokal();
+            muatWaktuLokal();
+            jalankanCountdown();
+        };
+
+        function muatDataLokal() {
+            const dataSimpan = localStorage.getItem('data_kelulusan_smp');
+            if(dataSimpan) {
+                dataSiswaGlobal = JSON.parse(dataSimpan);
+            } else {
+                dataSiswaGlobal = dataAwalSiswa;
+                localStorage.setItem('data_kelulusan_smp', JSON.stringify(dataAwalSiswa));
+            }
+            
+            let textResult = "";
+            dataSiswaGlobal.forEach(s => {
+                textResult += `${s.nis},${s.nama},${s.status}\n`;
+            });
+            document.getElementById('admin-textarea').value = textResult.trim();
+        }
+
+        function muatWaktuLokal() {
+            let waktuSimpan = localStorage.getItem('waktu_buka_smp');
+            if(!waktuSimpan) {
+                waktuSimpan = DEFAULT_WAKTU_BUKA;
+                localStorage.setItem('waktu_buka_smp', DEFAULT_WAKTU_BUKA);
+            }
+            document.getElementById('admin-timer-input').value = waktuSimpan;
+            waktuBukaTarget = new Date(waktuSimpan);
+        }
+
+        function aksesAdmin() {
+            let pass = prompt("Masukkan Password Akses Admin:");
+            if(pass === PASSWORD_ADMIN) {
+                pindahHalaman('admin');
+            } else if(pass !== null) {
+                alert("Password Salah! Akses Ditolak.");
+            }
+        }
+
+        function pindahHalaman(tujuan) {
+            if(tujuan === 'admin') {
+                document.getElementById('halaman-siswa').classList.add('hidden');
+                document.getElementById('halaman-admin').classList.remove('hidden');
+            } else {
+                document.getElementById('halaman-admin').classList.add('hidden');
+                document.getElementById('halaman-siswa').classList.remove('hidden');
+                muatDataLokal();
+                muatWaktuLokal();
+                
+                clearInterval(intervalCountdown);
+                jalankanCountdown();
+            }
+        }
+
+        function simpanSemuaDataAdmin() {
+            const inputWaktuBaru = document.getElementById('admin-timer-input').value;
+            if(!inputWaktuBaru) {
+                alert("Waktu pembukaan belum ditentukan!");
+                return;
+            }
+            localStorage.setItem('waktu_buka_smp', inputWaktuBaru);
+            waktuBukaTarget = new Date(inputWaktuBaru);
+
+            const rawText = document.getElementById('admin-textarea').value.trim();
+            if(!rawText) {
+                alert("Data siswa kosong! Gagal menyimpan.");
+                return;
+            }
+
+            const barisData = rawText.split('\n');
+            const arrayHasil = [];
+
+            for(let i = 0; i < barisData.length; i++) {
+                let kolom = barisData[i].split(',');
+                if(kolom.length >= 3) {
+                    arrayHasil.push({
+                        nis: kolom[0].trim(),
+                        nama: kolom[1].trim(),
+                        status: kolom[2].trim().toUpperCase()
+                    });
+                }
+            }
+
+            dataSiswaGlobal = arrayHasil;
+            localStorage.setItem('data_kelulusan_smp', JSON.stringify(arrayHasil));
+            
+            alert("Seluruh Konfigurasi Berhasil Diperbarui!\n- Waktu Buka Disimpan.\n- " + arrayHasil.length + " Data Siswa Diaktifkan.");
+            pindahHalaman('siswa');
+        }
+
+        function jalankanCountdown() {
+            const timerBox = document.getElementById('timer-box');
+            const btnCek = document.getElementById('btn-cek');
+            
+            const elHari = document.getElementById('timer-hari');
+            const elJam = document.getElementById('timer-jam');
+            const elMenit = document.getElementById('timer-menit');
+            const elDetik = document.getElementById('timer-detik');
+
+            timerBox.classList.remove('hidden');
+
+            intervalCountdown = setInterval(function() {
+                const sekarang = new Date().getTime();
+                const jarak = waktuBukaTarget.getTime() - sodium_get_real_time(sekarang);
+
+                function sodium_get_real_time(t) { return t; }
+
+                if (jarak > 0) {
+                    const hari = Math.floor(jarak / (1000 * 60 * 60 * 24));
+                    const jam = Math.floor((jarak % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const menit = Math.floor((jarak % (1000 * 60 * 60)) / (1000 * 60));
+                    const detik = Math.floor((jarak % (1000 * 60)) / 1000);
+
+                    elHari.innerHTML = hari < 10 ? "0" + hari : hari;
+                    elJam.innerHTML = jam < 10 ? "0" + jam : jam;
+                    elMenit.innerHTML = menit < 10 ? "0" + menit : menit;
+                    elDetik.innerHTML = detik < 10 ? "0" + detik : detik;
+
+                    btnCek.disabled = true;
+                } else {
+                    clearInterval(intervalCountdown);
+                    timerBox.classList.add('hidden');
+                    btnCek.disabled = false;
+                }
+            }, 1000);
+        }
+
+        function cekKelulusan() {
+            const inputNis = document.getElementById('nis-input').value.trim();
+            const hasilBox = document.getElementById('hasil-box');
+            stopConfetti();
+
+            if(!inputNis) {
+                alert("Silakan masukkan NIS terlebih dahulu!");
+                return;
+            }
+
+            const siswa = dataSiswaGlobal.find(s => s.nis === inputNis);
+            hasilBox.classList.remove('hidden');
+
+            if(siswa) {
+                if(siswa.status === "LULUS") {
+                    hasilBox.innerHTML = `
+                        <div class="result-card status-lulus">
+                            <h3>Selamat! Anda Dinyatakan LULUS</h3>
+                            <table>
+                                <tr><td>Nama Siswa</td><td>: ${siswa.nama}</td></tr>
+                                <tr><td>NIS</td><td>: ${siswa.nis}</td></tr>
+                            </table>
+                        </div>
+                    `;
+                    startConfetti();
+                } else {
+                    hasilBox.innerHTML = `
+                        <div class="result-card status-tidak">
+                            <h3>Mohon Maaf, Anda Dinyatakan TIDAK LULUS</h3>
+                            <p style="margin-bottom:10px;">Jangan berkecil hati dan tetap semangat!</p>
+                            <table>
+                                <tr><td>Nama Siswa</td><td>: ${siswa.nama}</td></tr>
+                                <tr><td>NIS</td><td>: ${siswa.nis}</td></tr>
+                            </table>
+                        </div>
+                    `;
+                }
+            } else {
+                hasilBox.innerHTML = `
+                    <div class="result-card status-error">
+                        <h3>Data Tidak Ditemukan</h3>
+                        <p>Periksa kembali NIS yang Anda masukkan atau hubungi pihak sekolah.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // ================= ENGINE EFEK CONFETTI =================
+        let canvas = document.getElementById('confetti-canvas');
+        let ctx = canvas.getContext('2d');
+        let pieces = [];
+        let numberOfPieces = 150;
+        let lastUpdateTime = Date.now();
+        let confettiActive = false;
+
+        function randomColor() {
+            const colors = ['#2ECC71', '#3498DB', '#E74C3C', '#FFC107', '#9B59B6', '#1ABC9C'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function updatePieces() {
+            let now = Date.now(), dt = now - lastUpdateTime;
+            lastUpdateTime = now;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (confettiActive && pieces.length < numberOfPieces) {
+                pieces.push({
+                    x: Math.random() * canvas.width,
+                    y: -20,
+                    rotation: Math.random() * 360,
+                    rotationSpeed: (Math.random() - 0.5) * 10,
+                    color: randomColor(),
+                    width: Math.random() * 8 + 6,
+                    height: Math.random() * 12 + 8,
+                    speed: Math.random() * 3 + 2
+                });
+            }
+
+            pieces.forEach((p, i) => {
+                p.y += p.speed;
+                p.rotation += p.rotationSpeed;
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rotation * Math.PI / 180);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.width/2, -p.height/2, p.width, p.height);
+                ctx.restore();
+
+                if (p.y > canvas.height) pieces.splice(i, 1);
+            });
+
+            if (confettiActive || pieces.length > 0) {
+                requestAnimationFrame(updatePieces);
+            } else {
+                canvas.classList.add('hidden');
+            }
+        }
+
+        function startConfetti() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            canvas.classList.remove('hidden');
+            confettiActive = true;
+            pieces = [];
+            lastUpdateTime = Date.now();
+            updatePieces();
+            setTimeout(() => { confettiActive = false; }, 4000);
+        }
+
+        function stopConfetti() {
+            confettiActive = false;
+            pieces = [];
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            canvas.classList.add('hidden');
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
