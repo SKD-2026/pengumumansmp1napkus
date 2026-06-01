@@ -348,8 +348,8 @@
             </div>
 
             <div class="form-group">
-                <label for="nis-input">Masukkan Nomor Induk Siswa (NIS) :</label>
-                <input type="text" id="nis-input" placeholder="Contoh: 12345" autocomplete="off">
+                <label for="nis-input">NOMOR PESERTA UJIAN :</label>
+                <input type="text" id="nis-input" placeholder="Contoh: 00-00-000-000" autocomplete="off">
             </div>
             
             <button id="btn-cek" class="btn" onclick="cekKelulusan()" disabled>Cek Status Kelulusan</button>
@@ -393,18 +393,56 @@
 
         // ================= CONFIGURE DEFAULT SYSTEM =================
         const PASSWORD_ADMIN = "adminbadrun";
-        
-        // Waktu default awal jika local storage kosong
-        const DEFAULT_WAKTU_BUKA = "2026-06-18T10:00"; 
+        const DEFAULT_WAKTU_BUKA = "2026-06-02T12:30"; 
         // ============================================================
 
+        // Data awal siswa yang sudah diperbaiki standarisasi format digit nomor ujiannya
         const dataAwalSiswa = [
             { nis: "12345", nama: "andi", status: "LULUS" },
             { nis: "23456", nama: "la ode", status: "LULUS" },
             { nis: "34567", nama: "wa ina", status: "TIDAK LULUS" },
             { nis: "45678", nama: "la ege", status: "LULUS" },
             { nis: "45679", nama: "wa la ode", status: "LULUS" }, 
-            { nis: "56789", nama: "wa abe", status: "LULUS" }
+            { nis: "56789", nama: "wa abe", status: "LULUS" },
+            { nis: "20-17-001-001", nama: "ANDINI", status: "LULUS" },
+            { nis: "20-17-001-002", nama: "DIMAS ALI ASE", status: "LULUS" },
+            { nis: "20-17-001-003", nama: "DEDES ALMUHARAM", status: "LULUS" },
+            { nis: "20-17-001-004", nama: "MULIATI ZILVA", status: "LULUS" },
+            { nis: "20-17-001-005", nama: "MUHAMAD AGUNG LAKSONO H.", status: "LULUS" },
+            { nis: "20-17-001-006", nama: "MUH. RIDO SAPUTRA", status: "LULUS" },
+            { nis: "20-17-001-007", nama: "NUR ALISA", status: "LULUS" },
+            { nis: "20-17-001-008", nama: "ALIF PRATAMA", status: "LULUS" },
+            { nis: "20-17-001-009", nama: "LM. AL MUNAJAT SALESI", status: "LULUS" },
+            { nis: "20-17-001-010", nama: "ARNI", status: "LULUS" },
+            { nis: "20-17-001-011", nama: "MUH. SIDDIQ FAIKUN", status: "LULUS" },
+            { nis: "20-17-001-012", nama: "DWI SULTAN FEBRIAN", status: "LULUS" },
+            { nis: "20-17-001-013", nama: "SITI KAMILA AISYAH", status: "LULUS" },
+            { nis: "20-17-001-014", nama: "SUWERNI", status: "LULUS" },
+            { nis: "20-17-001-015", nama: "RENITA", status: "LULUS" },
+            { nis: "20-17-001-016", nama: "NURMAYANTI", status: "LULUS" },
+            { nis: "20-17-001-017", nama: "SELFIANI", status: "LULUS" },
+            { nis: "20-17-001-018", nama: "SITI AFIFA INDAR PRAWANSYAH", status: "LULUS" },
+            { nis: "20-17-001-019", nama: "LISRA", status: "LULUS" },
+            { nis: "20-17-001-020", nama: "MUH. AKBAR", status: "LULUS" },
+            { nis: "20-17-001-021", nama: "ZAHWA SEPTIANA", status: "LULUS" },
+            { nis: "20-17-001-022", nama: "TIAS INDRI YANI", status: "LULUS" },
+            { nis: "20-17-001-023", nama: "LA ODE MUHAMAD MUZIJAL POTEWASI", status: "LULUS" },
+            { nis: "20-17-001-024", nama: "NUR LILAN PRATIWI", status: "LULUS" },
+            { nis: "20-17-001-025", nama: "MUHAMMAD NIZAM", status: "LULUS" },
+            { nis: "20-17-001-026", nama: "SITTI ADHANILA EFENDI", status: "LULUS" },
+            { nis: "20-17-001-027", nama: "ASLAM SEPTRIADI PUTRA", status: "LULUS" },
+            { nis: "20-17-001-028", nama: "MUHAMAD ADNAN AYYAS", status: "LULUS" },
+            { nis: "20-17-001-029", nama: "MUHAMAD BINTANG ALFATIN", status: "LULUS" },
+            { nis: "20-17-001-030", nama: "GONZALES", status: "LULUS" },
+            { nis: "20-17-001-031", nama: "NITRA", status: "LULUS" },
+            { nis: "20-17-001-032", nama: "MUH. REHAN", status: "LULUS" },
+            { nis: "20-17-001-033", nama: "SRI NANDA AULIA", status: "LULUS" },
+            { nis: "20-17-001-034", nama: "FARIS", status: "LULUS" },
+            { nis: "20-17-001-035", nama: "ALI IMRAN", status: "LULUS" },
+            { nis: "20-17-001-036", nama: "WAFIQ NAFISAH", status: "LULUS" },
+            { nis: "20-17-001-037", nama: "ANDI ASRIANI", status: "LULUS" },
+            { nis: "20-17-001-038", nama: "LA ODE MUHAMMAD AHSAN MAGFIRAH", status: "LULUS" },
+            { nis: "20-17-001-039", nama: "CELSI PUTRI WAHYU", status: "TIDAK LULUS" }
         ];
 
         let dataSiswaGlobal = [];
@@ -412,6 +450,10 @@
         let intervalCountdown;
 
         window.onload = function() {
+            // Memastikan data terbaru (tanpa bug nomor ujian) langsung menimpa data lama di penyimpanan browser
+            localStorage.setItem('data_kelulusan_smp', JSON.stringify(dataAwalSiswa));
+            localStorage.setItem('waktu_buka_smp', DEFAULT_WAKTU_BUKA);
+            
             muatDataLokal();
             muatWaktuLokal();
             jalankanCountdown();
@@ -540,17 +582,25 @@
             }, 1000);
         }
 
+        // Fungsi pencarian pintar untuk menghindari error ketik siswa
+        function normalisasiNis(str) {
+            // Menghapus spasi dan mengubah nol berlebih di bagian digit akhir agar tetap terbaca.
+            let clean = str.replace(/\s+/g, '');
+            return clean.replace(/-000+/g, '-00');
+        }
+
         function cekKelulusan() {
-            const inputNis = document.getElementById('nis-input').value.trim();
+            const inputNisRaw = document.getElementById('nis-input').value.trim();
             const hasilBox = document.getElementById('hasil-box');
             stopConfetti();
 
-            if(!inputNis) {
-                alert("Silakan masukkan NIS terlebih dahulu!");
+            if(!inputNisRaw) {
+                alert("Silakan masukkan Nomor Ujian terlebih dahulu!");
                 return;
             }
 
-            const siswa = dataSiswaGlobal.find(s => s.nis === inputNis);
+            // Mencari siswa berdasarkan NIS yang sudah dinormalisasi
+            const siswa = dataSiswaGlobal.find(s => normalisasiNis(s.nis) === normalisasiNis(inputNisRaw));
             hasilBox.classList.remove('hidden');
 
             if(siswa) {
@@ -560,7 +610,7 @@
                             <h3>Selamat! Anda Dinyatakan LULUS</h3>
                             <table>
                                 <tr><td>Nama Siswa</td><td>: ${siswa.nama}</td></tr>
-                                <tr><td>NIS</td><td>: ${siswa.nis}</td></tr>
+                                <tr><td>Nomor Ujian</td><td>: ${siswa.nis}</td></tr>
                             </table>
                         </div>
                     `;
@@ -572,7 +622,7 @@
                             <p style="margin-bottom:10px;">Jangan berkecil hati dan tetap semangat!</p>
                             <table>
                                 <tr><td>Nama Siswa</td><td>: ${siswa.nama}</td></tr>
-                                <tr><td>NIS</td><td>: ${siswa.nis}</td></tr>
+                                <tr><td>Nomor Ujian</td><td>: ${siswa.nis}</td></tr>
                             </table>
                         </div>
                     `;
@@ -580,8 +630,8 @@
             } else {
                 hasilBox.innerHTML = `
                     <div class="result-card status-error">
-                        <h3>Data Tidak Ditemukan</h3>
-                        <p>Periksa kembali NIS yang Anda masukkan atau hubungi pihak sekolah.</p>
+                        <h3>Maaf Data Anda Tidak Ditemukan di Pengumuman ini =</h3>
+                        <p>Mohon periksa kembali Nomor Ujian yang Anda masukkan atau hubungi pihak sekolah/panitia kelulusan.</p>
                     </div>
                 `;
             }
